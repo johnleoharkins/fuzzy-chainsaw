@@ -1,0 +1,148 @@
+2022-11-22 17:12:39,317 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000 [in 224]
+2022-11-22 17:12:39,317 INFO: [33mPress CTRL+C to quit[0m [in 224]
+2022-11-22 17:12:39,318 INFO:  * Restarting with stat [in 224]
+2022-11-22 17:12:40,126 WARNING:  * Debugger is active! [in 224]
+2022-11-22 17:12:40,126 INFO:  * Debugger PIN: 115-825-904 [in 224]
+2022-11-22 17:13:20,110 WARNING: Execution of job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-22 17:13:20 CST)" skipped: maximum number of running instances reached (1) [in 980]
+2022-11-22 17:15:32,681 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000 [in 224]
+2022-11-22 17:15:32,681 INFO: [33mPress CTRL+C to quit[0m [in 224]
+2022-11-22 17:15:32,682 INFO:  * Restarting with stat [in 224]
+2022-11-22 17:15:33,533 WARNING:  * Debugger is active! [in 224]
+2022-11-22 17:15:33,534 INFO:  * Debugger PIN: 115-825-904 [in 224]
+2022-11-22 17:17:54,621 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000 [in 224]
+2022-11-22 17:17:54,622 INFO: [33mPress CTRL+C to quit[0m [in 224]
+2022-11-22 17:17:54,622 INFO:  * Restarting with stat [in 224]
+2022-11-22 17:17:55,487 WARNING:  * Debugger is active! [in 224]
+2022-11-22 17:17:55,487 INFO:  * Debugger PIN: 115-825-904 [in 224]
+2022-11-22 17:18:21,859 ERROR: Job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-22 17:18:35 CST)" raised an exception [in 131]
+Traceback (most recent call last):
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/venv/lib64/python3.10/site-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 34, in redditJob
+    asyncio.run(process_reddit_multi())
+  File "/usr/lib64/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 51, in process_reddit_multi
+    vars = vars(submission)
+UnboundLocalError: local variable 'vars' referenced before assignment
+2022-11-22 17:18:37,825 ERROR: Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fea380bc6a0> [in 1747]
+2022-11-22 17:18:37,825 ERROR: Unclosed connector
+connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x7fea38a77ac0>, 1270374.274129404)]']
+connector: <aiohttp.connector.TCPConnector object at 0x7fea380bc730> [in 1747]
+2022-11-22 17:18:37,833 ERROR: Job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-22 17:18:55 CST)" raised an exception [in 131]
+Traceback (most recent call last):
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/venv/lib64/python3.10/site-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 34, in redditJob
+    asyncio.run(process_reddit_multi())
+  File "/usr/lib64/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 51, in process_reddit_multi
+    vars = vars(submission)
+UnboundLocalError: local variable 'vars' referenced before assignment
+2022-11-22 17:18:41,301 ERROR: Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fea380bed10> [in 1747]
+2022-11-22 17:18:41,301 ERROR: Unclosed connector
+connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x7fea380ed660>, 1270390.25605618)]']
+connector: <aiohttp.connector.TCPConnector object at 0x7fea380bed40> [in 1747]
+2022-11-22 17:19:16,619 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000 [in 224]
+2022-11-22 17:19:16,619 INFO: [33mPress CTRL+C to quit[0m [in 224]
+2022-11-22 17:19:16,620 INFO:  * Restarting with stat [in 224]
+2022-11-22 17:19:17,428 WARNING:  * Debugger is active! [in 224]
+2022-11-22 17:19:17,428 INFO:  * Debugger PIN: 115-825-904 [in 224]
+2022-11-24 17:22:00,463 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000 [in 224]
+2022-11-24 17:22:00,464 INFO: [33mPress CTRL+C to quit[0m [in 224]
+2022-11-24 17:22:00,465 INFO:  * Restarting with stat [in 224]
+2022-11-24 17:22:01,280 WARNING:  * Debugger is active! [in 224]
+2022-11-24 17:22:01,280 INFO:  * Debugger PIN: 115-825-904 [in 224]
+2022-11-24 17:22:41,264 WARNING: Execution of job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-24 17:22:41 CST)" skipped: maximum number of running instances reached (1) [in 980]
+2022-11-24 17:22:44,774 ERROR: Job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-24 17:23:01 CST)" raised an exception [in 131]
+Traceback (most recent call last):
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/venv/lib64/python3.10/site-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 35, in redditJob
+    asyncio.run(process_reddit_multi())
+  File "/usr/lib64/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 52, in process_reddit_multi
+    content_type=submission.media.type,
+AttributeError: 'dict' object has no attribute 'type'
+2022-11-24 17:23:21,263 WARNING: Execution of job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-24 17:23:21 CST)" skipped: maximum number of running instances reached (1) [in 980]
+2022-11-24 17:23:23,878 ERROR: Job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-24 17:23:41 CST)" raised an exception [in 131]
+Traceback (most recent call last):
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/venv/lib64/python3.10/site-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 35, in redditJob
+    asyncio.run(process_reddit_multi())
+  File "/usr/lib64/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 52, in process_reddit_multi
+    content_type=submission.media.type,
+AttributeError: 'dict' object has no attribute 'type'
+2022-11-24 17:24:01,264 WARNING: Execution of job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-24 17:24:01 CST)" skipped: maximum number of running instances reached (1) [in 980]
+2022-11-24 17:24:03,198 ERROR: Job "reddit-rr (trigger: interval[0:00:20], next run at: 2022-11-24 17:24:21 CST)" raised an exception [in 131]
+Traceback (most recent call last):
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/venv/lib64/python3.10/site-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 35, in redditJob
+    asyncio.run(process_reddit_multi())
+  File "/usr/lib64/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/johnharkins/Projects/python-flask/undrgrnd/pyundrgrnd/src/jobs/reddit.py", line 52, in process_reddit_multi
+    content_type=submission.media.type,
+AttributeError: 'dict' object has no attribute 'type'
+2022-11-24 17:24:13,971 ERROR: Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f508ed97f70> [in 1747]
+2022-11-24 17:24:13,972 ERROR: Unclosed connector
+connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x7f508d4140a0>, 1443437.197784399)]']
+connector: <aiohttp.connector.TCPConnector object at 0x7f508ed97fd0> [in 1747]
+2022-11-24 17:24:13,972 ERROR: Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f508ed97af0> [in 1747]
+2022-11-24 17:24:13,973 ERROR: Unclosed connector
+connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x7f508d414580>, 1443476.310425177)]']
+connector: <aiohttp.connector.TCPConnector object at 0x7f508d3c21a0> [in 1747]
+2022-11-24 17:24:13,973 ERROR: Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f508d3c36a0> [in 1747]
+2022-11-24 17:24:13,973 ERROR: Unclosed connector
+connections: ['[(<aiohttp.client_proto.ResponseHandler object at 0x7f508d4165c0>, 1443515.631002534)]']
+connector: <aiohttp.connector.TCPConnector object at 0x7f508d3c2260> [in 1747]
+2022-11-24 17:24:13,974 ERROR: Fatal error on SSL transport
+protocol: <asyncio.sslproto.SSLProtocol object at 0x7f508d3c38b0>
+transport: <_SelectorSocketTransport closing fd=12> [in 1747]
+Traceback (most recent call last):
+  File "/usr/lib64/python3.10/asyncio/selector_events.py", line 916, in write
+    n = self._sock.send(data)
+OSError: [Errno 9] Bad file descriptor
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib64/python3.10/asyncio/sslproto.py", line 690, in _process_write_backlog
+    self._transport.write(chunk)
+  File "/usr/lib64/python3.10/asyncio/selector_events.py", line 922, in write
+    self._fatal_error(exc, 'Fatal write error on socket transport')
+  File "/usr/lib64/python3.10/asyncio/selector_events.py", line 717, in _fatal_error
+    self._force_close(exc)
+  File "/usr/lib64/python3.10/asyncio/selector_events.py", line 729, in _force_close
+    self._loop.call_soon(self._call_connection_lost, exc)
+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 753, in call_soon
+    self._check_closed()
+  File "/usr/lib64/python3.10/asyncio/base_events.py", line 515, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed

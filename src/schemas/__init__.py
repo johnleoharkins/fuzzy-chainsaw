@@ -1,0 +1,1 @@
+from src.schemas.reddit import RedditDataSchema
