@@ -68,33 +68,8 @@ async def process_subreddit():
             result = db.session.execute(submission_lookup).scalar()
             if result is None:
                 try:
-                    if 'gif' in submission.url or "gfycat" in submission.url:
-                        if isinstance(submission.media, dict):
-                            new_reddit_data = RedditDataModel(reddit_submission_id=submission.id,
-                                                              created_utc=submission.created_utc,
-                                                              reddit_url=submission.preview['reddit_video_preview']['scrubber_media_url'],
-                                                              content_type=submission.preview['reddit_video_preview']['is_gif'],
-                                                              height=submission.preview['reddit_video_preview']['height'],
-                                                              width=submission.preview['reddit_video_preview']['width'],
-                                                              oembed_html=submission.media["oembed"]["html"],
-                                                              score=submission.score
-                                                              )
-                            db.session.add(new_reddit_data)
-                            db.session.commit()
-
-                        elif "redd.it" in submission.url:
-                            new_reddit_data = RedditDataModel(reddit_submission_id=submission.id,
-                                                              created_utc=submission.created_utc,
-                                                              reddit_url=submission.url,
-                                                              content_type="gif",
-                                                              height=submission.preview['images'][0]['source']['height'],
-                                                              width=submission.preview['images'][0]['source']['width'],
-                                                              oembed_html=None,
-                                                              score=submission.score
-                                                              )
-                            db.session.add(new_reddit_data)
-                            db.session.commit()
-                        elif ".gifv" in submission.url:
+                    if 'gif' in submission.url or "gfycat" in submission.url or "giphy" in submission.url:
+                        if ".gifv" in submission.url:
                             url_replace = submission.url.replace(".gifv", ".mp4")
                             new_reddit_data = RedditDataModel(reddit_submission_id=submission.id,
                                                               created_utc=submission.created_utc,
@@ -107,6 +82,44 @@ async def process_subreddit():
                                                               )
                             db.session.add(new_reddit_data)
                             db.session.commit()
+                        elif "redd.it" in submission.url:
+                            new_reddit_data = RedditDataModel(reddit_submission_id=submission.id,
+                                                              created_utc=submission.created_utc,
+                                                              reddit_url=submission.url,
+                                                              content_type="gif",
+                                                              height=submission.preview['images'][0]['source']['height'],
+                                                              width=submission.preview['images'][0]['source']['width'],
+                                                              oembed_html=None,
+                                                              score=submission.score
+                                                              )
+                            db.session.add(new_reddit_data)
+                            db.session.commit()
+                        elif isinstance(submission.media, dict):
+                            if 'redgif' in submission.url:
+                                redgif_url = submission.url.replace("watch", "ifr")
+                                new_reddit_data = RedditDataModel(reddit_submission_id=submission.id,
+                                                                  created_utc=submission.created_utc,
+                                                                  reddit_url=redgif_url,
+                                                                  content_type="gif",
+                                                                  height=submission.preview['reddit_video_preview']['height'],
+                                                                  width=submission.preview['reddit_video_preview']['width'],
+                                                                  oembed_html=submission.media["oembed"]["html"],
+                                                                  score=submission.score
+                                                                  )
+                                db.session.add(new_reddit_data)
+                                db.session.commit()
+                            else:
+                                new_reddit_data = RedditDataModel(reddit_submission_id=submission.id,
+                                                                  created_utc=submission.created_utc,
+                                                                  reddit_url=submission.preview['reddit_video_preview']['scrubber_media_url'],
+                                                                  content_type=submission.preview['reddit_video_preview']['is_gif'],
+                                                                  height=submission.preview['reddit_video_preview']['height'],
+                                                                  width=submission.preview['reddit_video_preview']['width'],
+                                                                  oembed_html=submission.media["oembed"]["html"],
+                                                                  score=submission.score
+                                                                  )
+                                db.session.add(new_reddit_data)
+                                db.session.commit()
 
                     elif "preview" in vars(submission):
                         new_reddit_data = RedditDataModel(reddit_submission_id=submission.id,
@@ -120,7 +133,7 @@ async def process_subreddit():
                                                           )
                         db.session.add(new_reddit_data)
                         db.session.commit()
-                    elif submission.is_gallery is True:
+                    elif submission["is_gallery"] is True:
                         vals = submission.media_metadata
                         for d in vals:
                             media = vals[d]["s"]
