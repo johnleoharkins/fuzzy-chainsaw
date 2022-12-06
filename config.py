@@ -49,6 +49,9 @@ class Config:
     CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL ')
     RESULT_BACKEND = os.getenv('RESULT_BACKEND')
 
+    TWITTER_TOKEN = None
+    TWITTER_TOKEN_RES = None
+
 
 class DevelopmentConfig(Config):
     FLASK_DEBUG = 1
@@ -70,20 +73,14 @@ class ProductionConfig(Config):
 
 
 class APSchedulerConfig:
-    JOBS = [
-        # {
-        #     "id": "updateGame",
-        #     "func": "jobs:updateGame",
-        #     "trigger": "interval",
-        #     "seconds": 10,
-        # },
-        # {
-        #     "id": "job1",
-        #     "func": "jobs:job1",
-        #     "args": (gameid, 2),
-        #     "trigger": "interval",
-        #     "seconds": 10,
-        # }
-    ]
-
+    from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+    from src.extensions.db import db
+    # POSTGRESQL_DEVDB = os.getenv('POSTGRESQL_DEVDB')
+    # SCHEDULER_JOBSTORES = {
+    #     'default': SQLAlchemyJobStore(url=POSTGRESQL_DEVDB, tablename="apscheduler_jobs")
+    # }
     SCHEDULER_API_ENABLED = True
+    SCHEDULER_JOB_DEFAULTS = {
+        'coalesce': True,
+        'max_instances': 1
+    }

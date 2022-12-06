@@ -13,4 +13,4 @@ class RedditDataModel(db.Model):
     created_utc = db.Column(db.Float)
     oembed_html = db.Column(db.String(250), nullable=True)
     score = db.Column(db.Integer)
-
+    tweet_id = db.Column(db.String(24), nullable=True)

@@ -4,75 +4,12 @@ import os
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
-from werkzeug.utils import secure_filename
-
 
 # Flask extension objects
 from src.extensions.scheduler import scheduler
 from src.extensions.db import db
 
-import asyncio
 import os
-from time import sleep
-
-import asyncpraw
-import praw
-
-def reddit_client():
-    reddit_secret = os.getenv('REDDIT_SECRET')
-    reddit_id = os.getenv('REDDIT_WEB_APP_ID')
-    reddit = asyncpraw.Reddit(
-        client_id=reddit_id,
-        client_secret=reddit_secret,
-        user_agent="fedora",
-    )
-    return reddit
-
-
-async def get_subreddit_data():
-    rc = reddit_client()
-    print(f"read only reddit client: {rc.read_only}")
-    subreddit = await rc.subreddit("NewYorkNine", fetch=True)
-    multi = await rc.multireddit(redditor="diffLvlEq", name='various_art_forms', fetch=True)
-    async for submission in multi.top(limit=10):
-        print(submission.title)
-        print(submission.score)
-        print(submission.id)
-        print(submission.url)
-        print("\n")
-
-    async for submission in subreddit.hot(limit=10):
-        print(submission.title)
-        print(submission.score)
-        print(submission.id)
-        print(submission.url)
-        # print(submission.preview.images[0].source.url)
-        # submission.load()
-        # if submission.media_metadata:
-    #     image = submission.preview.images[0].source.url
-    #     for image_item in image_dict.values():
-    #         largest_image = image_item['s']
-    #         image_url = largest_image['u']
-    #         print(image_url)
-
-    await rc.close()
-
-
-def redditJobs():
-    print(f"running function redditJobs")
-    asyncio.run(get_subreddit_data())
-    sleep(10)
-
-
-def callback(future):
-    print(f"callback {future.title}")
-
-job = {
-        "id": "redditJobs",
-        "func": "src:redditJobs",
-        "trigger": "interval",
-        "hours": 1
-    }
 
 
 def configure_logging(app):
@@ -89,11 +26,9 @@ def configure_logging(app):
     file_handler.setLevel(logging.INFO)
     file_formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(lineno)d]')
     file_handler.setFormatter(file_formatter)
-
     app.logger.addHandler(file_handler)
 
     root.addHandler(file_handler)
-    print(f"fuck it... logs blow")
     root.info("new config for logs...")
 
 
@@ -129,14 +64,15 @@ def register_error_pages(app):
 def register_blueprints(api):
     from src.resources import MainBlueprint
     from src.resources import RedditBlueprint
+    from src.resources import TwitterBlueprint
     api.register_blueprint(MainBlueprint)
     api.register_blueprint(RedditBlueprint)
+    api.register_blueprint(TwitterBlueprint)
 
 
 def initialize_extensions(app):
-    from src.app import job
     from src.jobs import RedditJob
-    from src.models import RedditDataModel
+    from src.jobs import TweetJob
 
     # connect SQLAlchemy to application and create all tables
     with app.app_context():
@@ -145,13 +81,14 @@ def initialize_extensions(app):
 
     # connect flask-migrate
     # migrate = Migrate(app, db)
-    print(f"{RedditJob}")
     # connect APScheduler extension, start
+
     scheduler.init_app(app)
 
     scheduler.start()
-    scheduler.add_job(**job)
     scheduler.add_job(**RedditJob)
+    scheduler.add_job(**TweetJob)
+
     # connect flask-smorest extension to flask application, register blueprints
     api = Api(app)
     register_blueprints(api)
@@ -177,12 +114,6 @@ def create_app(db_url=None):
     app.secret_key = os.urandom(24)
 
     ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-    # connect sqlalchemy
-    # db.init_app(app)
-    # with app.app_context():
-    #     db.init_app(app)
-    #     db.create_all()
 
     register_error_pages(app)
     initialize_extensions(app)

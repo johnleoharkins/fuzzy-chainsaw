@@ -15,4 +15,5 @@ requests
 asyncpraw
 asyncio
 psycopg2
+requests_oauthlib
 gunicorn
