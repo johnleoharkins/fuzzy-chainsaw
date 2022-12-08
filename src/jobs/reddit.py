@@ -4,6 +4,8 @@ import os
 from time import sleep
 
 import asyncpraw
+from flask import current_app, session, url_for
+from werkzeug.utils import secure_filename
 
 from src.extensions.scheduler import scheduler
 # from src.extensions.scheduler import scheduler
@@ -53,6 +55,23 @@ class RedditSubmissionProcessingError(Exception):
         return msg
 
 
+def download_media(media, folder):
+    media = requests.get('https://i.redd.it/9yzxvmmccnv81.jpg')
+    b = BytesIO(media.content)
+    target = os.path.join(current_app.config['UPLOAD_FOLDER'], f'reddit/{folder}')
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    file = media
+    if file.filename == '':
+        return
+    filename = secure_filename(file.filename)
+    destination = "/".join([target, filename])
+    file.save(destination)
+    session['uploadFilePath'] = destination
+    item_image_url = url_for('download_item_image_file', name=filename)
+    return destination
+
+
 async def psubreddit(subreddit_name, time_filter):
     rc = reddit_client()
     sr = await rc.subreddit(subreddit_name, fetch=True)
@@ -64,10 +83,13 @@ async def psubreddit(subreddit_name, time_filter):
             result = db.session.execute(submission_lookup).scalar()
             if result is None:
                 try:
+                    # download_media(submission.url, subreddit_name)
                     new_reddit_data = RedditDataModel(
                         reddit_submission_id=submission.id,
                         created_utc=submission.created_utc,
-                        score=submission.score
+                        score=submission.score,
+                        subreddit_name_prefixed=submission.subreddit_name_prefixed,
+                        is_gallery=False
                     )
                     if 'redgif' in submission.url:
                         redgif_url = submission.url.replace("watch", "ifr")
@@ -80,7 +102,10 @@ async def psubreddit(subreddit_name, time_filter):
 
                     elif 'gfycat' in submission.url:
                         new_reddit_data.content_type = "gfycat/gif"
-                        new_reddit_data.reddit_url = submission.preview['reddit_video_preview']['scrubber_media_url']
+                        preview_url = submission.preview['reddit_video_preview']['fallback_url']
+                        if '.mp4' in preview_url:
+                            new_reddit_data.content_type = "gfycat/gif/mp4"
+                        new_reddit_data.reddit_url = preview_url
                         new_reddit_data.height = submission.preview['reddit_video_preview']['height']
                         new_reddit_data.width = submission.preview['reddit_video_preview']['width']
                         db.session.add(new_reddit_data)
@@ -88,7 +113,7 @@ async def psubreddit(subreddit_name, time_filter):
 
                     elif 'giphy' in submission.url:
                         new_reddit_data.content_type = "giphy/gif"
-                        new_reddit_data.reddit_url = submission.preview['reddit_video_preview']['scrubber_media_url']
+                        new_reddit_data.reddit_url = submission.preview['reddit_video_preview']['fallback_url']
                         new_reddit_data.height = submission.preview['reddit_video_preview']['height']
                         new_reddit_data.width = submission.preview['reddit_video_preview']['width']
                         db.session.add(new_reddit_data)
@@ -125,7 +150,9 @@ async def psubreddit(subreddit_name, time_filter):
                             reddit_gallery_data = RedditDataModel(
                                 reddit_submission_id=submission.id,
                                 created_utc=submission.created_utc,
-                                score=submission.score
+                                score=submission.score,
+                                subreddit_name_prefixed=submission.subreddit_name_prefixed,
+                                is_gallery=True
                             )
                             media = vals[d]["s"]
                             reddit_gallery_data.reddit_url = media["u"]
@@ -168,7 +195,7 @@ job = {
         "coalesce": True,
         "max_instances": 1,
         "trigger": "interval",
-        "seconds": 6
+        "hours": 6
     }
 
 

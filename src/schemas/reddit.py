@@ -10,5 +10,7 @@ class RedditDataSchema(Schema):
     reddit_submission_id = fields.Str()
     # created_utc = db.Column(db.TIMESTAMP(timezone=True))
     created_utc = fields.Float()
-    oembed_html = fields.Str()
+    # oembed_html = fields.Str()
     score = fields.Int()
+    subreddit_name_prefixed = fields.Str()
+    is_gallery = fields.Bool()

@@ -26,7 +26,7 @@ def post_tweet():
                 print(f"Twitter token not set... {j_token}")
                 return
             rand = random.randint(a=1, b=20)
-            payload = {"text": "hello{}".format(rand)}
+            payload = {"text": f"{result.reddit_url}"}
             res = requests.request(
                 "POST",
                 "https://api.twitter.com/2/tweets",
@@ -36,8 +36,20 @@ def post_tweet():
                     "Content-Type": "application/json",
                 },
             )
+
+            res = res.json()
             print("response: ", res)
+            result.tweet_id = res['data']['id']
+            db.session.add(result)
+            db.session.commit()
             return res
+
+
+def upload_media_twitter(file_path):
+    media = {'media': open(file_path, 'rb')}
+    res = requests.request('POST', 'https://upload.twitter.com/1.1/media/upload.json')
+    rjson = res.json()
+    print(f"twitter media upload res: {rjson}")
 
 
 tweet_job = {
