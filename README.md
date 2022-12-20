@@ -4,6 +4,10 @@
 Experimental Project
 -
 
+defunct project. learned a lot. had a good time. archiving. 
+mp4/gif download doesn't work. media upload to twitter doesn't work. 
+not worth the time to refine this application. time to iterate.
+
 Refining flask application design.
 
 
