@@ -72,7 +72,8 @@ def register_blueprints(api):
 
 def initialize_extensions(app):
     from src.jobs import RedditJob
-    from src.jobs import TweetJob
+    from src.jobs import subreddit_job
+    # from src.jobs import TweetJob
 
     # connect SQLAlchemy to application and create all tables
     with app.app_context():
@@ -84,11 +85,8 @@ def initialize_extensions(app):
     # connect APScheduler extension, start
 
     scheduler.init_app(app)
-
     scheduler.start()
     scheduler.add_job(**RedditJob)
-    scheduler.add_job(**TweetJob)
-
     # connect flask-smorest extension to flask application, register blueprints
     api = Api(app)
     register_blueprints(api)

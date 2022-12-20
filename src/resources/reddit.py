@@ -9,9 +9,6 @@ from src.schemas import RedditDataSchema
 
 blp = Blueprint("Reddit", __name__, "Operations on reddit")
 
-
-
-
 @blp.route("/reddit")
 class Reddit(MethodView):
     @blp.response(200, RedditDataSchema(many=True))
