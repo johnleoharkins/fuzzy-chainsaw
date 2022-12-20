@@ -16,6 +16,8 @@ from src.extensions.scheduler import scheduler
 from src.models import RedditDataModel
 from src.extensions.db import db
 
+# figure out if I should refactor everything to class based.
+
 def reddit_client():
     reddit_secret = os.getenv('REDDIT_SECRET')
     reddit_id = os.getenv('REDDIT_WEB_APP_ID')
@@ -42,7 +44,7 @@ class RedditSubmissionProcessingError(Exception):
                f"submission url: {self.url}")
         return msg
 
-
+# cannot download from redgif until i get keys .... assuming similar for gyphycat gyphy etc so fuck it
 def download_media(content_url, subreddit: str, submission_id, ext):
     subreddit = subreddit.removeprefix('r/')
 
@@ -221,7 +223,7 @@ def subreddit_job(subreddit_name, sort, time_filter):
 def multireddit_job(multireddit_name, sort, time_filter):
     asyncio.run(process_multireddit(multireddit_name, sort, time_filter))
 
-
+# for testing...
 job = {
         "id": "sr-1",
         "func": "src.jobs:subreddit_job",

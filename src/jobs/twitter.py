@@ -68,7 +68,7 @@ class ImageTweet(object):
         self.media_id = None
         self.processing_info = None
 
-# doesn't work. figure it out later. fuck it
+# doesn't work in a scratch python script. invalid token/or expired. tokens dont expire. idk. figure it out later. fuck it
 # source: https://github.com/twitterdev/large-video-upload-python/blob/master/async-upload.py
 MEDIA_ENDPOINT_URL = 'https://upload.twitter.com/1.1/media/upload.json'
 POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
